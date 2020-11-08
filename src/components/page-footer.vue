@@ -1,6 +1,6 @@
 <template>
   <v-footer class="pa-4" absolute>
-    <span>&copy; {{ new Date().getFullYear() }} - <strong>User Managemet Application</strong></span>
+    <span>&copy; {{ new Date().getFullYear() }} - <strong>Task Managemet</strong></span>
   </v-footer>
 </template>
 
