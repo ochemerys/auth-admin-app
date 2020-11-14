@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <page-header msg="Welcome to User Managemet"/>
+    <page-header msg="Welcome to User Management"/>
 
     <v-card width="400" class="mx-auto mt-5" data-test-id="landing-card">
       <v-card-title>
