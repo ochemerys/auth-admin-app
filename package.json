@@ -11,7 +11,7 @@
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
     "deploy:staging": "npm run test && npm run build:stage && firebase deploy -P staging",
-    "deploy:production": "npm run test && npm run build:prod && firebase deploy -P default"
+    "deploy:prod": "npm run test && npm run build:prod && firebase deploy -P default"
   },
   "dependencies": {
     "core-js": "^3.6.5",
