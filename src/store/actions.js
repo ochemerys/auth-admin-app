@@ -1,9 +1,9 @@
 import auth from '../../config/firebase-auth.conf';
 
-const baseUrl = 'https://us-central1-fb-task-management-stage.cloudfunctions.net/msAuthApi';
+const baseUrl = process.env.VUE_APP_API_BASE_URL;
 
 function mapResponseUser(fbUser) {
-  const rootEmail = 'root-user-email@domain.com';
+  const rootEmail = process.env.VUE_APP_ROOT_USER_EMAIL;
   const isRoot = fbUser.email === rootEmail;
   const user = {
     id: fbUser.uid,
@@ -43,7 +43,7 @@ export default {
       const authUserId = auth.user.localId;
 
       const loggedUserResp = await auth.authorizedRequest(`${baseUrl}/users/${authUserId}`);
-      console.log('loggedUserResp.status', loggedUserResp.status);
+      // console.log('loggedUserResp.status', loggedUserResp.status);
       const fbUser = (await loggedUserResp.json()).user;
       loggedUser = mapResponseUser(fbUser);
 
