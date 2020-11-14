@@ -1,16 +1,29 @@
 # User Management application
 
-Auth User Management web application developed with VueJS. It manages users of Task Management firebase project by connecting to web api exposed with Firebase functions.
+Auth User Management web application developed with VueJS. It manages users of Task Management firebase project by connecting to web api exposed by cloud https functions of task-management Firebase project.
 
-Application is hosted on Firebase.
+This application was created by vue cli with preselected features
 
-## Project setup
+* vue router for routing implementation
+* vuex as state management implementation
+* eslint with Airbnb javascript style guide
+* jest as unit testing framework
+* cypress as e2e testing framework
 
-Clone application and run:
+Vuetify as UI Material Design framework was implemented later.
+
+The application is hosted on Firebase Host and supports automatic builds and deploys with GitHub.
+Deployment process is described [here](/docs/firebase-hosting).
+
+## Getting started
+
+Clone application and run in created folder:
 
 ```bash
 npm install
 ```
+
+Copy ***.env.example*** to ***.env*** and adjust the values where necessary.
 
 ## Development supporting commands
 
@@ -68,9 +81,7 @@ npm run lint
 npm run lint --fix
 ```
 
-### Deploy to multiple environments
-
-The application is hosted on Firebase Host and supports automatic builds and deploys with GitHub.
+### deploy
 
 To deploy to ***production*** environment, run:
 
@@ -84,9 +95,9 @@ To deploy to ***staging*** environment, run:
 firebase deploy -P staging
 ```
 
-### Continuos deployment
+## Continuos deployment
 
-GitHub ***master*** branch is associated with site's live channel
+GitHub ***master*** branch is associated with site's live channel for production deployment
 
 ## For Vue configuration settings
 
