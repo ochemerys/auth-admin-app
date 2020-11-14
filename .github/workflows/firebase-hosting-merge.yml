@@ -39,7 +39,7 @@ jobs:
         env:
           VUE_APP_API_KEY: ${{ secrets.FB_API_PROD_KEY }}
           VUE_APP_ROOT_USER_EMAIL: ${{ secrets.FB_PROD_ROOT_USER }}
-      - run: 'npm run build:prod'
+      - run: 'npm ci && npm run build:prod'
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
