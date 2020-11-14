@@ -31,7 +31,7 @@ jobs:
           wait-on-timeout: 120
           spec: "tests/e2e/**/*"
           config: pageLoadTimeout=100000,baseUrl=http://localhost:8080
-  build_and_deploy:
+  build_and_preview:
     needs: [unit_test, e2e_test]
     runs-on: ubuntu-latest
     steps:
@@ -39,12 +39,28 @@ jobs:
         env:
           VUE_APP_API_KEY: ${{ secrets.FB_API_PROD_KEY }}
           VUE_APP_ROOT_USER_EMAIL: ${{ secrets.FB_PROD_ROOT_USER }}
-      - run: 'npm ci && npm run build:prod'
+      - run: 'npm run build:prod'
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_FB_TASK_MANAGEMENT }}'
-          channelId: live
           projectId: fb-task-management
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels
+#  build_and_deploy:
+#    needs: [unit_test, e2e_test]
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#        env:
+#          VUE_APP_API_KEY: ${{ secrets.FB_API_PROD_KEY }}
+#          VUE_APP_ROOT_USER_EMAIL: ${{ secrets.FB_PROD_ROOT_USER }}
+#      - run: 'npm ci && npm run build:prod'
+#      - uses: FirebaseExtended/action-hosting-deploy@v0
+#        with:
+#          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+#          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_FB_TASK_MANAGEMENT }}'
+#          channelId: live
+#          projectId: fb-task-management
+#        env:
+#          FIREBASE_CLI_PREVIEWS: hostingchannels
