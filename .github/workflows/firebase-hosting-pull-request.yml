@@ -17,6 +17,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Cypress run
+        env:
+          VUE_APP_API_KEY: ${{ secrets.FB_API_KEY }}
+          VUE_APP_ROOT_USER_EMAIL: ${{ secrets.FB_ROOT_USER }}
         uses: cypress-io/github-action@v2
         with:
           start: npm run serve
