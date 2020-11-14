@@ -2,17 +2,19 @@
 
 Here is a quick description of Firebase Hosting implementation for web application ***my-awesome-vue-app***
 
-For more details [documentation](https://firebase.google.com/docs/hosting/quickstart).
+For more details see [documentation](https://firebase.google.com/docs/hosting/quickstart).
 
 ## Prerequisites
 
 NodeJS v.10 with npm are required.
 
-Install Firebase CLI:
+Firebase CLI is required, to install:
 
 ```bash
 npm install -g firebase-tools
 ```
+
+Firebase project(s) for Firebase Hosting are required.
 
 ## Initialize Hosting
 
@@ -22,22 +24,33 @@ Open terminal and go to project root folder and run:
 firebase init hosting
 ```
 
-1. Select ***my-awesome-project*** Firebase project to connect to local project directory as default hosting project
-2. Specify a directory to use as your public root directory. For Vue applications create with vue cli it is going to be ***dist*** folder
-3. Select ***No*** to keep default configuration or ***Yes*** to specify rewrite configuration, more details in [configure rewrites](https://firebase.google.com/docs/hosting/full-config#rewrites).
-4. select ***Yes*** to set up automatic builds and deploys with GitHub
-5. select ***No*** to overwrite existing index.html. This step will log into GitHub via the Firebase CLI.
-6. select ***your-account-name/my-awesome-vue-app*** GitHub repository to set up GitHub workflow
-7. select ***No*** to run a build script before every deploy
-8. provide command '```npm ci && npm run build:prod```' to be run before every deploy
-9. select ***Yes*** to set up automatic deployment when merged
-10. select ***master*** branch associated with the deployment
+To set up Hosting configuration:
+
+* Select ***my-awesome-project*** Firebase project to connect to local project directory as default hosting project
+* Specify a directory to use as your public root directory. For Vue applications create with vue cli it is going to be ***dist*** folder
+* Select ***No*** to keep default configuration or ***Yes*** to specify rewrite configuration, more details in [configure rewrites](https://firebase.google.com/docs/hosting/full-config#rewrites).
+
+-- for GutHub CI/CD --
+
+* select ***Yes*** to set up automatic builds and deploys with GitHub
+* select ***No*** to overwrite existing index.html. This step will log into GitHub via the Firebase CLI.
+* select ***your-account-name/my-awesome-vue-app*** GitHub repository to set up GitHub workflow
+* select ***No*** to run a build script before every deploy
+* provide command '```npm ci && npm run build:prod```' to be run before every deploy
+* select ***Yes*** to set up automatic deployment when merged
+* select ***master*** branch associated with the deployment
 
 ## Deployment
 
 ### Single default environment (production)
 
 To deploy ***my-awesome-vue-app*** to Firebase ***my-awesome-project*** hosting:
+
+Push to GitHub master branch
+
+or
+
+Run command:
 
 ```bash
 firebase deploy --only hosting
