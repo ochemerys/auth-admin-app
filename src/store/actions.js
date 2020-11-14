@@ -1,4 +1,4 @@
-import auth from '../../config/firebase-auth.conf';
+import auth from '../firebase-auth.conf';
 
 const baseUrl = process.env.VUE_APP_API_BASE_URL;
 
