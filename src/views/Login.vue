@@ -29,6 +29,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="info" @click="submitForm">Login</v-btn>
+        <v-btn color="default" @click="onCancel">Cancel</v-btn>
       </v-card-actions>
     </v-card>
     <page-footer/>
@@ -60,6 +61,10 @@ export default {
     };
   },
   methods: {
+    onCancel(e) {
+      e.preventDefault();
+      this.$router.push('/');
+    },
     async submitForm(e) {
       e.preventDefault();
       const isValid = this.$refs.form.validate();
