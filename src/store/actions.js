@@ -41,7 +41,9 @@ export default {
     try {
       await auth.signIn(email, password);
       const authUserId = auth.user.localId;
-
+      console.log('baseUrl', baseUrl);
+      console.log('authUserId', authUserId);
+      console.log('url', `${baseUrl}/users/${authUserId}`);
       const loggedUserResp = await auth.authorizedRequest(`${baseUrl}/users/${authUserId}`);
       // console.log('loggedUserResp.status', loggedUserResp.status);
       const fbUser = (await loggedUserResp.json()).user;

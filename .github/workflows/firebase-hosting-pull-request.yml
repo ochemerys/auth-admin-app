@@ -32,6 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - run: ./github-firebase-env-vars.sh ${{ secrets.FB_API_PROD_KEY }} ${{ secrets.FB_PROD_ROOT_USER }} > .env.production.local
       - run: 'npm ci && npm run build:prod'
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
