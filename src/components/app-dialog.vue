@@ -30,7 +30,11 @@
 export default {
   name: 'AppDialog',
   props: {
-    title: String,
+    title: {
+      type: String,
+      required: true,
+      validation: (value) => value.length > 0,
+    },
     disabled: Boolean,
   },
   data() {

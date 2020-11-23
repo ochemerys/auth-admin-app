@@ -32,7 +32,11 @@ export default {
     AppDialog,
   },
   props: {
-    user: Object,
+    user: {
+      type: Object,
+      required: true,
+      validation: (value) => 'id' in value && 'displayName' in value && 'email' in value && 'role' in value,
+    },
   },
   data() {
     return {
@@ -51,17 +55,6 @@ export default {
         );
       }
     },
-    // getUserRolesString(userRoles) {
-    //   let str = '';
-    //   const roleCount = userRoles.length;
-    //   userRoles.forEach((role, idx) => {
-    //     str += role;
-    //     if (idx < roleCount - 1) {
-    //       str += '; ';
-    //     }
-    //   });
-    //   return str;
-    // },
   },
   computed: {
     isDeleteDisabled() {

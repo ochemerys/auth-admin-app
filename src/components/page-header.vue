@@ -11,7 +11,13 @@
 <script>
 export default {
   name: 'PageHeader',
-  props: { msg: String },
+  props: {
+    msg: {
+      type: String,
+      required: true,
+      validation: (value) => value.length > 0,
+    },
+  },
   computed: {
     sheetProps() {
       switch (this.$vuetify.breakpoint.name) {
