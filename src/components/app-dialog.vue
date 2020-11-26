@@ -9,7 +9,10 @@
     <v-card>
       <v-card-title class="headline">{{ title }} Confirmation</v-card-title>
       <v-card-text>
-        <slot></slot>
+        <slot>
+          <!-- Default content -->
+          <div>Are You sure?</div>
+        </slot>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
