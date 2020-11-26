@@ -82,7 +82,13 @@ export default {
         if (user.role === 'admin') {
           this.$router.push('/dashboard');
         } else {
-          this.$router.push(`/profile/${user.id}`);
+          // this.$router.push(`/profile/${user.id}`);
+          this.$router.push({
+            name: 'profile',
+            params: {
+              id: user.id,
+            },
+          });
         }
       }
     },
