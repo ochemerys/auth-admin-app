@@ -13,7 +13,7 @@ This application was created by vue cli with preselected features
 Vuetify as UI Material Design framework was implemented later.
 
 The application is hosted on Firebase Host and supports automatic builds and deploys with GitHub.
-Deployment process is described [here](/docs/firebase-hosting).
+Deployment process is described [here](/docs/firebase-hosting.md).
 
 ## Getting started
 
