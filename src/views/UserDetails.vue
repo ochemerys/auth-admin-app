@@ -13,12 +13,14 @@
             v-model="currentUser.displayName"
             label="User Name"
             prepend-icon="mdi-account-circle"
+            :disabled="isRootUser"
           />
           <v-text-field
             type="email"
             v-model="currentUser.email"
             label="User Email"
             prepend-icon="mdi-email"
+            :disabled="isRootUser"
             :rules="[rules.required, rules.email]"
             required
           />
@@ -27,16 +29,28 @@
             v-model="currentUser.role"
             row
             :rules="[rules.required]"
-            v-if="!isLoggedUser"
+            :disabled="isLoggedUser || isRootUser"
           >
             <v-spacer></v-spacer>
             <v-radio label="Admin" value="admin"></v-radio>
             <v-radio label="Manager" value="manager"></v-radio>
             <v-radio label="Registered User" value="user"></v-radio>
           </v-radio-group>
+          <v-btn
+            block
+            small
+            v-if="isLoggedUser"
+            @click="onChangePasswordRquest"
+          >
+            Request Password Change
+            <v-icon right dark >
+              mdi-cloud-upload
+            </v-icon>
+          </v-btn>
           <v-text-field
             :type="showPassword ? 'text': 'password'"
             v-model="currentUser.password"
+            v-else-if="isNewUser"
             label="Password"
             prepend-icon="mdi-lock"
             :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
@@ -55,7 +69,9 @@
       <v-divider></v-divider>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="info" @click="onSubmitDetails">{{submitButtonTitle}}</v-btn>
+        <v-btn
+          v-if="!isRootUser" color="info" @click="onSubmitDetails">{{submitButtonTitle}}
+        </v-btn>
         <v-btn @click="navigateTo">Cancel</v-btn>
       </v-card-actions>
     </v-card>
@@ -105,6 +121,23 @@ export default {
     getCurentUser(userId) {
       return this.$store.getters.activeUsers.find((user) => user.id === userId);
     },
+    async onChangePasswordRquest(e) {
+      e.preventDefault();
+      let sb;
+      try {
+        await this.$store.dispatch('AUTH_CHANGE_PASSWORD_REQUEST', this.currentUser.email);
+        sb = {
+          variant: 'primary',
+          message: 'INFO: Check your registered email to reset the password!',
+        };
+      } catch (err) {
+        sb = {
+          variant: 'error',
+          message: `ERROR: ${err.message}`,
+        };
+      }
+      this.$store.commit('UPDATE_SNACKBAR', sb);
+    },
     async onSubmitDetails(e) {
       e.preventDefault();
       const isValid = this.$refs.form.validate();
@@ -148,6 +181,12 @@ export default {
     },
     isLoggedUser() {
       return !!this.currentUser && this.currentUser.id === this.$store.getters.loggedUserId;
+    },
+    isRootUser() {
+      return !!this.currentUser && this.currentUser.email === process.env.VUE_APP_ROOT_USER_EMAIL;
+    },
+    isNewUser() {
+      return !!this.currentUser && this.currentUser.id.toLowerCase() === 'new';
     },
   },
 };

@@ -69,11 +69,21 @@ export default {
     }
     return loggedUser;
   },
+
+  async AUTH_CHANGE_PASSWORD_REQUEST(context, userEmail) {
+    await auth.sendOobCode('PASSWORD_RESET', userEmail);
+  },
+
+  async AUTH_VERIFY_EMAIL_REQUEST(context, userEmail) {
+    await auth.sendOobCode('VERIFY_EMAIL', userEmail);
+  },
+
   async AUTH_LOGOUT({ commit }) {
     await auth.signOut();
     commit('AUTH_LOGOUT');
     commit('GET_USERS', []);
   },
+
   async PATCH_USER({ commit }, payload) {
     const {
       id, displayName, password, email, role,

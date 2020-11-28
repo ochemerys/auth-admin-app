@@ -10,7 +10,7 @@ export default [
     path: '/login',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
-    // comment /* webpackChunkName: "login" */ is responible proper naming of related chunk
+    // comment /* webpackChunkName: "login" */ is responsible proper naming of related chunk
     // which is lazy-loaded when the route is visited.
     name: 'login',
     component: () => import(/* webpackChunkName: "login" */ '@/views/Login.vue'),

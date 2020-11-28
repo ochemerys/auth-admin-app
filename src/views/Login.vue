@@ -46,6 +46,11 @@ export default {
     PageHeader,
     PageFooter,
   },
+  created() {
+    this.userEmail = this.$route.query.email;
+  },
+  mounted() {
+  },
   data() {
     return {
       showPassword: false,

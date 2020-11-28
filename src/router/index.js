@@ -12,6 +12,7 @@ const router = new Router({
   routes,
 });
 
+// --- route guards
 // router.beforeEach((to, from, next) => {
 //   console.log('router - auth.user', store.state);
 //   console.log('router.beforeEach::to , from', to, from);
