@@ -15,7 +15,7 @@
         Edit
       </v-btn>
       <v-spacer></v-spacer>
-      <app-dialog :disabled="isDeleteDisabled" title="Delete" @onConfirm="DELETE_USER(user.id)">
+      <app-dialog :disabled="isDeleteDisabled" title="Delete" @onConfirm="onDeleteUser(user.id)">
         Selected User will be deleted permanently.
         Do you want to delete the user?
       </app-dialog>
@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 import AppDialog from './app-dialog.vue';
 
 export default {
@@ -43,22 +44,32 @@ export default {
     };
   },
   methods: {
-    async DELETE_USER(userId) {
+    ...mapActions({ deleteUser: 'DELETE_USER' }),
+    ...mapMutations({ updateSnackbar: 'UPDATE_SNACKBAR' }),
+    async onDeleteUser(userId) {
       try {
-        this.$store.dispatch('DELETE_USER', { userId });
-        this.$store.commit(
-          'UPDATE_SNACKBAR', { variant: 'success', message: 'Success! User is deleted successfully.' },
-        );
+        this.deleteUser({ userId });
+        // this.$store.dispatch('DELETE_USER', { userId });
+        this.updateSnackbar({ variant: 'success', message: 'Success! User is deleted successfully.' });
+        // this.$store.commit(
+        //   'UPDATE_SNACKBAR', {
+        //     variant: 'success',
+        //     message: 'Success! User is deleted successfully.'
+        //   },
+        // );
       } catch (err) {
-        this.$store.commit(
-          'UPDATE_SNACKBAR', { variant: 'error', message: `Error: ${err.message}` },
-        );
+        this.updateSnackbar({ variant: 'error', message: `Error: ${err.message}` });
+        // this.$store.commit(
+        //  'UPDATE_SNACKBAR', { variant: 'error', message: `Error: ${err.message}` },
+        // );
       }
     },
   },
   computed: {
+    ...mapGetters(['loggedUserId']),
     isDeleteDisabled() {
-      return this.user.id === this.$store.getters.loggedUserId;
+      return this.user.id === this.loggedUserId;
+      // return this.user.id === this.$store.getters.loggedUserId;
     },
   },
 };

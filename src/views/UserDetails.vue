@@ -81,6 +81,7 @@
 </template>
 
 <script>
+import { mapActions, mapMutations } from 'vuex';
 import PageHeader from '../components/page-header.vue';
 import PageFooter from '../components/page-footer.vue';
 
@@ -118,6 +119,8 @@ export default {
     };
   },
   methods: {
+    ...mapActions({ requestPasswordChange: 'AUTH_CHANGE_PASSWORD_REQUEST' }),
+    ...mapMutations({ updateSnackbar: 'UPDATE_SNACKBAR' }),
     getCurentUser(userId) {
       return this.$store.getters.activeUsers.find((user) => user.id === userId);
     },
@@ -125,7 +128,8 @@ export default {
       e.preventDefault();
       let sb;
       try {
-        await this.$store.dispatch('AUTH_CHANGE_PASSWORD_REQUEST', this.currentUser.email);
+        await this.requestPasswordChange(this.currentUser.email);
+        // await this.$store.dispatch('AUTH_CHANGE_PASSWORD_REQUEST', this.currentUser.email);
         sb = {
           variant: 'primary',
           message: 'INFO: Check your registered email to reset the password!',
@@ -136,7 +140,8 @@ export default {
           message: `ERROR: ${err.message}`,
         };
       }
-      this.$store.commit('UPDATE_SNACKBAR', sb);
+      this.updateSnackbar(sb);
+      // this.$store.commit('UPDATE_SNACKBAR', sb);
     },
     async onSubmitDetails(e) {
       e.preventDefault();
@@ -158,7 +163,8 @@ export default {
             variant: 'error',
             message: `ERROR: ${err.message}`,
           };
-          this.$store.commit('UPDATE_SNACKBAR', sb);
+          this.updateSnackbar(sb);
+          // this.$store.commit('UPDATE_SNACKBAR', sb);
           return;
         }
         this.navigateTo();

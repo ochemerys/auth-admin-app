@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import { mapActions, mapMutations } from 'vuex';
 import PageHeader from '../components/page-header.vue';
 import PageFooter from '../components/page-footer.vue';
 
@@ -66,6 +67,8 @@ export default {
     };
   },
   methods: {
+    ...mapActions({ login: 'AUTH_LOGIN' }),
+    ...mapMutations({ updateSnackbar: 'UPDATE_SNACKBAR' }),
     onCancel(e) {
       e.preventDefault();
       this.$router.push('/');
@@ -74,14 +77,18 @@ export default {
       e.preventDefault();
       const isValid = this.$refs.form.validate();
       if (isValid) {
-        const user = await this.$store.dispatch('AUTH_LOGIN', { email: this.userEmail, password: this.userPassword });
+        const user = await this.login({ email: this.userEmail, password: this.userPassword });
+        // const user = await this.$store.dispatch('AUTH_LOGIN',
+        //  { email: this.userEmail, password: this.userPassword }
+        // );
         if (!user) {
           const sb = {
             show: true,
             variant: 'error',
             message: 'ERROR! User name or password does not match.',
           };
-          this.$store.commit('UPDATE_SNACKBAR', sb);
+          this.updateSnackbar(sb);
+          // this.$store.commit('UPDATE_SNACKBAR', sb);
           return;
         }
         if (user.role === 'admin') {
