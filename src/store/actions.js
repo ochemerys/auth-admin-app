@@ -11,6 +11,7 @@ function mapResponseUser(fbUser) {
     email: fbUser.email,
     role: isRoot ? 'admin' : fbUser.role || 'user',
     isActive: true,
+    lastSignInTime: fbUser.lastSignInTime,
   };
   return user;
 }
@@ -41,12 +42,13 @@ export default {
     try {
       await auth.signIn(email, password);
       const authUserId = auth.user.localId;
-      console.log('baseUrl', baseUrl);
-      console.log('authUserId', authUserId);
-      console.log('url', `${baseUrl}/users/${authUserId}`);
+      // console.log('baseUrl', baseUrl);
+      // console.log('authUserId', authUserId);
+      // console.log('url', `${baseUrl}/users/${authUserId}`);
       const loggedUserResp = await auth.authorizedRequest(`${baseUrl}/users/${authUserId}`);
       // console.log('loggedUserResp.status', loggedUserResp.status);
       const fbUser = (await loggedUserResp.json()).user;
+      // console.log('fbUser', fbUser);
       loggedUser = mapResponseUser(fbUser);
 
       context.commit('AUTH_LOGIN', loggedUser);
@@ -56,7 +58,7 @@ export default {
         users.push(loggedUser);
       } else {
         const resp = await auth.authorizedRequest(`${baseUrl}/users`);
-        console.log('resp.status', resp.status);
+        // console.log('resp.status', resp.status);
         const fbUsers = (await resp.json()).users;
         fbUsers.forEach((usr) => {
           users.push(mapResponseUser(usr));
@@ -118,7 +120,7 @@ export default {
         body: JSON.stringify(payload),
       });
       const { uid } = await respOnCreate.json();
-      console.log('uid', uid);
+      // console.log('uid', uid);
 
       user = commit('CREATE_USER', { id: uid, ...payload });
     } catch (err) {
@@ -128,7 +130,7 @@ export default {
   },
   async DELETE_USER({ commit }, payload) {
     const { userId } = payload;
-    console.log('userId', userId);
+    // console.log('userId', userId);
     try {
       await auth.authorizedRequest(`${baseUrl}/users/${userId}`, {
         method: 'DELETE',
