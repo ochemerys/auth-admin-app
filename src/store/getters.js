@@ -3,7 +3,8 @@ export default {
     let isValidToken = false;
     const currentDateTime = new Date();
     if (state.loggedUser && state.loggedUser) {
-      const tokenLifespanMinutes = 30; // move to .env
+      // firebase auth tokens expire after one hour.
+      const tokenLifespanMinutes = 60; // move to .env
       const expiredDateTime = new Date(state.loggedUser.lastSignInTime);
       expiredDateTime.setMinutes(expiredDateTime.getMinutes() + tokenLifespanMinutes);
       isValidToken = expiredDateTime > currentDateTime;
