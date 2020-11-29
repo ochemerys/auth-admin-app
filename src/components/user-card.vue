@@ -15,11 +15,19 @@
         Edit
       </v-btn>
       <v-spacer></v-spacer>
-      <app-dialog :disabled="isDeleteDisabled" title="Delete" @onConfirm="onDeleteUser(user.id)">
+      <app-dialog :disabled="isLoggedUser" title="Delete" @onConfirm="onDeleteUser(user.id)">
         Selected User will be deleted permanently.
         Do you want to delete the user?
       </app-dialog>
     </v-card-actions>
+    <v-icon
+      v-if="isLoggedUser || isRootUser"
+      v-pin="{top:'1px', right:'-2px'}"
+      :color="cardMarkerVariant"
+      dark
+    >
+      {{ cardMarker }}
+    </v-icon>
   </v-card>
 </template>
 
@@ -27,8 +35,12 @@
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 import AppDialog from './app-dialog.vue';
 
+// cistom directives local usage
+import pinDirective from '../directives/pin.directive';
+
 export default {
   name: 'UserCard',
+  directives: { pin: pinDirective },
   components: {
     AppDialog,
   },
@@ -41,6 +53,7 @@ export default {
   },
   data() {
     return {
+      cardMarker: 'mdi-clippy',
     };
   },
   methods: {
@@ -67,9 +80,15 @@ export default {
   },
   computed: {
     ...mapGetters(['loggedUserId']),
-    isDeleteDisabled() {
+    isLoggedUser() {
       return this.user.id === this.loggedUserId;
       // return this.user.id === this.$store.getters.loggedUserId;
+    },
+    isRootUser() {
+      return this.user.email === process.env.VUE_APP_ROOT_USER_EMAIL;
+    },
+    cardMarkerVariant() {
+      return this.isLoggedUser ? 'primary' : 'grey';
     },
   },
 };
