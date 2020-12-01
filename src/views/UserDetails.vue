@@ -70,7 +70,10 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn
-          v-if="!isRootUser" color="info" @click="onSubmitDetails">{{submitButtonTitle}}
+          v-if="!isRootUser"
+          color="info"
+          :disabled="!isCurrentUserChanged"
+          @click="onSubmitDetails">{{submitButtonTitle}}
         </v-btn>
         <v-btn @click="navigateTo">Cancel</v-btn>
       </v-card-actions>
@@ -98,10 +101,13 @@ export default {
       this.currentUser = { id: 'new' };
     }
     this.currentUser.password = '';
+    // clone current user: Object.assign(this.currentUser, this.userBeforeEdit)
+    this.userBeforeEdit = { ...this.currentUser };
   },
   data() {
     return {
       currentUser: null,
+      userBeforeEdit: null,
       showPassword: false,
       confirmPassword: '',
       rules: {
@@ -193,6 +199,11 @@ export default {
     },
     isNewUser() {
       return !!this.currentUser && this.currentUser.id.toLowerCase() === 'new';
+    },
+    isCurrentUserChanged() {
+      return this.currentUser.displayName !== this.userBeforeEdit.displayName
+      || this.currentUser.email !== this.userBeforeEdit.email
+      || this.currentUser.role !== this.userBeforeEdit.role;
     },
   },
 };
