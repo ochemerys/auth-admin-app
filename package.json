@@ -21,7 +21,8 @@
     "deploy:prod": "npm run test && npm run build:prod && firebase deploy -P default"
   },
   "pre-commit": {
-    "run": ["lint", "test:unit", "test:e2e"]
+    "run": ["lint", "test:unit", "test:e2e"],
+    "silent": true
   },
   "dependencies": {
     "core-js": "^3.6.5",
