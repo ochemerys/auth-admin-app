@@ -20,11 +20,9 @@
     "deploy:staging": "npm run test && npm run build:stage && firebase deploy -P staging",
     "deploy:prod": "npm run test && npm run build:prod && firebase deploy -P default"
   },
-  "pre-commit": [
-    "lint",
-    "test:unit",
-    "test:e2e"
-  ],
+  "pre-commit": {
+    "run": ["lint", "test:unit", "test:e2e"]
+  },
   "dependencies": {
     "core-js": "^3.6.5",
     "firebase-auth-lite": "^0.8.7",
