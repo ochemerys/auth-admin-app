@@ -1,5 +1,7 @@
 # User Management application
 
+![Deploy to Firebase Hosting on merge](https://github.com/ochemerys/auth-admin-app/workflows/Deploy%20to%20Firebase%20Hosting%20on%20merge/badge.svg?branch=master)
+
 Auth User Management web application developed with VueJS. It manages users of Task Management firebase project by connecting to web api exposed by cloud https functions of task-management Firebase project.
 
 This application was created by vue cli with preselected features
