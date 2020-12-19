@@ -12,8 +12,14 @@ jobs:
     name: unit test run
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - run: 'npm ci && npm run test:unit'
+      - name: checkout repository
+        uses: actions/checkout@v2
+      - name: run unit tests
+        run: 'npm ci && npm run test:unit -- --coverage'
+      - name: upload coverage
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
   e2e_test:
     name: e2e test run
     runs-on: ubuntu-latest
