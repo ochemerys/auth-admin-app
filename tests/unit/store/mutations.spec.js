@@ -2,29 +2,28 @@ import store from '@/store/index';
 
 jest.mock('../../../src/firebase-auth.conf', () => ({
   __esModule: true,
-  auth: jest.fn(),
 }));
 
 describe('store mutations', () => {
-  it('AUTH_LOGIN', () => {
+  it('should successfully set loggedUser on commit AUTH_LOGIN', () => {
     const loggedUser = { id: 'tst', displayName: 'test user' };
     store.commit('AUTH_LOGIN', loggedUser);
     expect(store.state.loggedUser).toBe(loggedUser);
   });
 
-  it('AUTH_LOGOUT', () => {
+  it('should successfully remove loggedUser on commit AUTH_LOGOUT', () => {
     store.state.loggedUser = { id: 'tst', displayName: 'test user' };
     store.commit('AUTH_LOGOUT');
     expect(store.state.loggedUser).toBe(null);
   });
 
-  it('SET_USERS', () => {
+  it('should successfully set users on commit SET_USERS', () => {
     const users = [{ id: 'tst', displayName: 'test user' }];
     store.commit('SET_USERS', users);
     expect(store.state.users).toBe(users);
   });
 
-  it('CREATE_USER', () => {
+  it('should successfully add new user on commit CREATE_USER', () => {
     store.state.users = [{ id: 'tst1', displayName: 'test user 1' }];
     const user = { id: 'tst2', displayName: 'test user 2' };
     store.commit('CREATE_USER', user);
@@ -33,7 +32,7 @@ describe('store mutations', () => {
     expect(createdUser.id).toBe(user.id);
   });
 
-  it('should successfully delete user on commit PATCH_USER when user exists in state user collection', () => {
+  it('should successfully update user on commit PATCH_USER when user exists in state user collection', () => {
     store.state.users = [{ id: 'tst1', displayName: 'test user 1' }];
     const user = { id: 'tst1', displayName: 'test user 2 updated' };
     store.commit('PATCH_USER', user);
@@ -42,7 +41,7 @@ describe('store mutations', () => {
     expect(patchedUser.displayName).toBe(user.displayName);
   });
 
-  it('should throw error on commit DELETE_USER when user does not exists in state user collection', () => {
+  it('should throw error on commit PATCH_USER when user does not exists in state user collection', () => {
     store.state.users = [{ id: 'tst1', displayName: 'test user 1' }];
     const user = { id: 'wrong', displayName: 'test user 2 updated' };
 
