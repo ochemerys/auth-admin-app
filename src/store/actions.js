@@ -65,7 +65,7 @@ export default {
         });
       }
 
-      context.commit('GET_USERS', users);
+      context.commit('SET_USERS', users);
     } catch (err) {
       console.log('ERR', err);
     }
@@ -83,13 +83,14 @@ export default {
   async AUTH_LOGOUT({ commit }) {
     await auth.signOut();
     commit('AUTH_LOGOUT');
-    commit('GET_USERS', []);
+    commit('SET_USERS', []);
   },
 
-  async PATCH_USER({ commit }, payload) {
+  async PATCH_USER({ state, commit }, payload) {
     const {
       id, displayName, password, email, role,
     } = payload;
+
     let user = null;
 
     try {
@@ -99,20 +100,17 @@ export default {
           displayName, password, email, role,
         })),
       });
-      // console.log('respOnPatch', respOnPatch);
-      // console.log('text', await respOnPatch.text());
       const json = await respOnPatch.json();
-      // console.log('json', json);
       const fbUser = json.user;
-      // console.log('fbUser', fbUser);
-      // console.log('mapResponseUser(fbUser)', mapResponseUser(fbUser));
-      user = commit('PATCH_USER', mapResponseUser(fbUser));
+      commit('PATCH_USER', mapResponseUser(fbUser));
+      user = state.users.find((u) => u.id === fbUser.id);
     } catch (err) {
       console.log('ERR', err);
     }
     return user;
   },
-  async CREATE_USER({ commit }, payload) {
+
+  async CREATE_USER({ state, commit }, payload) {
     let user = null;
     try {
       const respOnCreate = await auth.authorizedRequest(`${baseUrl}/users`, {
@@ -122,7 +120,8 @@ export default {
       const { uid } = await respOnCreate.json();
       // console.log('uid', uid);
 
-      user = commit('CREATE_USER', { id: uid, ...payload });
+      commit('CREATE_USER', { id: uid, ...payload });
+      user = state.users.find((u) => u.id === uid);
     } catch (err) {
       console.log('ERR', err);
     }

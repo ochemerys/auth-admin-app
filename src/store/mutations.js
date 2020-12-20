@@ -2,12 +2,23 @@ export default {
   AUTH_LOGIN(state, payload) {
     state.loggedUser = payload;
   },
+
   AUTH_LOGOUT(state) {
     state.loggedUser = null;
   },
-  GET_USERS(state, payload) {
+
+  SET_USERS(state, payload) {
     state.users = payload;
   },
+
+  CREATE_USER(state, payload) {
+    state.users.push({
+      ...payload,
+      isActive: true,
+    });
+    // VUEX 3: mutations cannot return value
+  },
+
   PATCH_USER(state, payload) {
     const {
       id,
@@ -17,12 +28,8 @@ export default {
       role,
     } = payload;
 
-    // console.log('mutations PATCH_USER: id', id);
-    // console.log('mutations PATCH_USER: state.users', state.users);
-
     const userIndex = state.users.findIndex((user) => user.id === id);
 
-    // console.log('mutations PATCH_USER: userIndex', userIndex);
     if (userIndex >= 0) {
       const user = state.users[userIndex];
       user.displayName = displayName;
@@ -32,18 +39,9 @@ export default {
     } else {
       throw new Error('User is not found.');
     }
-    return state.users.findIndex((user) => user.id === id);
+    // VUEX 3: mutations cannot return value
   },
-  CREATE_USER(state, payload) {
-    console.log('CREATE_USER', payload);
 
-    state.users.push({
-      ...payload,
-      isActive: true,
-    });
-
-    return state.users.findIndex((user) => user.id === payload.id);
-  },
   DELETE_USER(state, payload) {
     const { userId } = payload;
     const userIndex = state.users.findIndex((user) => user.id === userId);
@@ -53,6 +51,7 @@ export default {
       throw new Error('User is not found.');
     }
   },
+
   UPDATE_SNACKBAR(state, payload) {
     const { message, variant } = payload;
     let show = false;
