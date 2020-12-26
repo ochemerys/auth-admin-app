@@ -1,6 +1,6 @@
 import store from '@/store/index';
 
-jest.mock('../../../src/firebase-auth.conf', () => ({
+jest.mock('../../../src/services/firebase-auth-proxy', () => ({
   __esModule: true,
 }));
 
