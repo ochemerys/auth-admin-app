@@ -8,8 +8,8 @@
       </v-card-title>
       <v-card-text>
         <blockquote class="blockquote text-center">
-          It's a basic Single Page application <br>
-          with Google Firebase authentication
+          This is a basic <b>Vue.js</b> - <b>Vuetify.js</b> Single Page application
+          to manage users<br>on <b>Google Firebase</b> project with cloud finctions.
         </blockquote>
       </v-card-text>
       <v-divider></v-divider>

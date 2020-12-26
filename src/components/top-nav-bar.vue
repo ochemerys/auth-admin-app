@@ -54,6 +54,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'TopNavBar',
   created() {
@@ -96,18 +98,24 @@ export default {
     },
   },
   computed: {
-    isLoggedIn() {
-      return this.$store.getters.isLoggedIn;
-    },
-    isUserAdmin() {
-      return this.$store.getters.isLoggedUserAdmin;
-    },
-    loggedUserName() {
-      return this.$store.getters.loggedUserName;
-    },
-    loggedUserId() {
-      return this.$store.getters.loggedUserId;
-    },
+    // vuex helpers:
+    ...mapGetters(['isLoggedIn', 'loggedUserName', 'loggedUserId']),
+    ...mapGetters({
+      isUserAdmin: 'isLoggedUserAdmin',
+    }),
+    // instead of:
+    // isLoggedIn() {
+    //   return this.$store.getters.isLoggedIn;
+    // },
+    // isUserAdmin() {
+    //   return this.$store.getters.isLoggedUserAdmin;
+    // },
+    // loggedUserName() {
+    //   return this.$store.getters.loggedUserName;
+    // },
+    // loggedUserId() {
+    //   return this.$store.getters.loggedUserId;
+    // },
     visibleMenuItems() {
       return this.menuItems.filter((item) => item.isVisible);
     },

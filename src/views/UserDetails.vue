@@ -70,7 +70,10 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn
-          v-if="!isRootUser" color="info" @click="onSubmitDetails">{{submitButtonTitle}}
+          v-if="!isRootUser"
+          color="info"
+          :disabled="!isCurrentUserChanged"
+          @click="onSubmitDetails">{{submitButtonTitle}}
         </v-btn>
         <v-btn @click="navigateTo">Cancel</v-btn>
       </v-card-actions>
@@ -81,6 +84,9 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+
+import auth from '../services/firebase-auth-proxy';
 import PageHeader from '../components/page-header.vue';
 import PageFooter from '../components/page-footer.vue';
 
@@ -97,10 +103,13 @@ export default {
       this.currentUser = { id: 'new' };
     }
     this.currentUser.password = '';
+    // clone current user: Object.assign(this.currentUser, this.userBeforeEdit)
+    this.userBeforeEdit = { ...this.currentUser };
   },
   data() {
     return {
       currentUser: null,
+      userBeforeEdit: null,
       showPassword: false,
       confirmPassword: '',
       rules: {
@@ -118,6 +127,7 @@ export default {
     };
   },
   methods: {
+    ...mapMutations({ updateSnackbar: 'UPDATE_SNACKBAR' }),
     getCurentUser(userId) {
       return this.$store.getters.activeUsers.find((user) => user.id === userId);
     },
@@ -125,7 +135,7 @@ export default {
       e.preventDefault();
       let sb;
       try {
-        await this.$store.dispatch('AUTH_CHANGE_PASSWORD_REQUEST', this.currentUser.email);
+        await auth.changePasswordRequest(this.currentUser.email);
         sb = {
           variant: 'primary',
           message: 'INFO: Check your registered email to reset the password!',
@@ -136,7 +146,7 @@ export default {
           message: `ERROR: ${err.message}`,
         };
       }
-      this.$store.commit('UPDATE_SNACKBAR', sb);
+      this.updateSnackbar(sb);
     },
     async onSubmitDetails(e) {
       e.preventDefault();
@@ -158,7 +168,7 @@ export default {
             variant: 'error',
             message: `ERROR: ${err.message}`,
           };
-          this.$store.commit('UPDATE_SNACKBAR', sb);
+          this.updateSnackbar(sb);
           return;
         }
         this.navigateTo();
@@ -187,6 +197,11 @@ export default {
     },
     isNewUser() {
       return !!this.currentUser && this.currentUser.id.toLowerCase() === 'new';
+    },
+    isCurrentUserChanged() {
+      return this.currentUser.displayName !== this.userBeforeEdit.displayName
+      || this.currentUser.email !== this.userBeforeEdit.email
+      || this.currentUser.role !== this.userBeforeEdit.role;
     },
   },
 };

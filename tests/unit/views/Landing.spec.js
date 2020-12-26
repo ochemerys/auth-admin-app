@@ -41,7 +41,7 @@ describe('Landing.vue', () => {
         isLoggedIn: () => false,
       },
     });
-    console.log(wrapper.find('[data-test-id="login-button"]').html());
+    // console.log(wrapper.find('[data-test-id="login-button"]').html());
     expect(wrapper.find('[data-test-id="login-button"]').exists()).toBe(true);
   });
 
